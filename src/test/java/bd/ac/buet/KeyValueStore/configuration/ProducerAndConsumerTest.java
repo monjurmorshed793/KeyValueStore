@@ -1,4 +1,4 @@
-package bd.ac.buet.KeyValueStore.service;
+package bd.ac.buet.KeyValueStore.configuration;
 
 import bd.ac.buet.KeyValueStore.configuration.KafkaConsumer;
 import bd.ac.buet.KeyValueStore.configuration.KafkaProducer;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka
-public class MessageProcessorTest {
+public class ProducerAndConsumerTest {
     @Autowired
     private KafkaConsumer consumer;
     @Autowired
