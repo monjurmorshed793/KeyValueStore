@@ -3,10 +3,8 @@ package bd.ac.buet.KeyValueStore.configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import reactor.kafka.receiver.KafkaReceiver;
-import reactor.kafka.receiver.ReceiverOptions;
-import reactor.kafka.sender.KafkaSender;
-import reactor.kafka.sender.SenderOptions;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.Collections;
 
@@ -20,16 +18,14 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    KafkaSender<Integer, String> kafkaSender(){
-        SenderOptions<Integer, String> senderOptions = SenderOptions.<Integer, String>create(kafkaProperties.getProducerProps())
-                .maxInFlight(1024);
-        return  KafkaSender.create(senderOptions);
+    public KafkaTemplate<String, String> kafkaTemplate(){
+        return new KafkaTemplate<>(kafkaProperties.producerFactory());
     }
 
     @Bean
-    KafkaReceiver<Integer, String> kafkaReceiver(){
-        ReceiverOptions<Integer, String> receiverOptions = ReceiverOptions.<Integer, String>create(kafkaProperties.getConsumerProps())
-                .subscription(Collections.singleton("topic"));
-        return KafkaReceiver.create(receiverOptions);
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(kafkaProperties.consumerFactory());
+        return factory;
     }
 }
