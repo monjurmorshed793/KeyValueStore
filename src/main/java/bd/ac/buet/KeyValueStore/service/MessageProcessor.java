@@ -29,7 +29,6 @@ public class MessageProcessor {
         }
     }
 
-    @KafkaListener(topics = "paxos-topic")
     public void listenToPaxosTopic(String message){
       log.info("in the listener");
       log.info(message);
