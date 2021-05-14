@@ -3,3 +3,7 @@ logging:
     ROOT: INFO
     tech.jhipster: INFO
     org.morshed: INFO
+
+
+application:
+  name: ${server-name}

@@ -12,3 +12,6 @@ spring:
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: true # we use Webpack dev server + BrowserSync for livereload
+
+application:
+  name: server1
