@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -14,7 +15,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @RedisHash("ServerInfo")
 public class ServerInfo {
-    private Long id;
+    private UUID id;
     private String name;
     private Instant updatedOn;
 }

@@ -28,7 +28,7 @@ public class ServerInfoRepositoryTest {
     @Test
     public void shouldSaveServerInfo(){
         ServerInfo serverInfo = new ServerInfo();
-        serverInfo.setId(1L);
+        serverInfo.setId(UUID.randomUUID());
         serverInfo.setName("server1");
         serverInfo.setUpdatedOn(Instant.now());
         serverInfo = serverInfoRepository.save(serverInfo);
@@ -37,10 +37,10 @@ public class ServerInfoRepositoryTest {
 
     @Test
     public void shouldRetrieveServerInfo(){
-        ServerInfo serverInfo = new ServerInfo(1L, "server1", Instant.now());
+        ServerInfo serverInfo = new ServerInfo(UUID.randomUUID(), "server1", Instant.now());
         serverInfoRepository.save(serverInfo);
 
-        ServerInfo serverInfoAfterSave = serverInfoRepository.findById(1L).get();
+        ServerInfo serverInfoAfterSave = serverInfoRepository.findById(serverInfo.getId()).get();
         assertEquals(serverInfoAfterSave.getId(), serverInfo.getId());
         assertEquals(serverInfoAfterSave.getName(), serverInfo.getName());
     }
