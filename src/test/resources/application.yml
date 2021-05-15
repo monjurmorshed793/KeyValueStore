@@ -10,3 +10,9 @@ kafka:
     value.serializer: org.apache.kafka.common.serialization.StringSerializer
 application:
   topic: paxos-topic
+  name: server1
+
+spring:
+  redis:
+    host: localhost
+    port: 6370
