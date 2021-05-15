@@ -5,6 +5,8 @@ import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,5 +33,15 @@ public class ServerInfoRepositoryTest {
         serverInfo.setUpdatedOn(Instant.now());
         serverInfo = serverInfoRepository.save(serverInfo);
         assertNotNull(serverInfo);
+    }
+
+    @Test
+    public void shouldRetrieveServerInfo(){
+        ServerInfo serverInfo = new ServerInfo(1L, "server1", Instant.now());
+        serverInfoRepository.save(serverInfo);
+
+        ServerInfo serverInfoAfterSave = serverInfoRepository.findById(1L).get();
+        assertEquals(serverInfoAfterSave.getId(), serverInfo.getId());
+        assertEquals(serverInfoAfterSave.getName(), serverInfo.getName());
     }
 }
