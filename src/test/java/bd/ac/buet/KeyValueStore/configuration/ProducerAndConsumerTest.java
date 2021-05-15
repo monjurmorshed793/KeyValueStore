@@ -2,6 +2,8 @@ package bd.ac.buet.KeyValueStore.configuration;
 
 import bd.ac.buet.KeyValueStore.configuration.KafkaConsumer;
 import bd.ac.buet.KeyValueStore.configuration.KafkaProducer;
+import bd.ac.buet.KeyValueStore.model.ServerInfo;
+import bd.ac.buet.KeyValueStore.repository.ServerInfoRepositoryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,17 +24,19 @@ public class ProducerAndConsumerTest {
     private KafkaConsumer consumer;
     @Autowired
     private KafkaProducer producer;
-    @Value("${application.topic}")
-    private String topic;
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     @Test
     public void givenEmbeddedKafkaBroker_whenSendingToSimpleProducer_thenMessageReceived()
             throws Exception {
-        producer.send(topic, "Sending with own simple KafkaProducer");
+        ServerInfo providedServerInfo = ServerInfoRepositoryTest.createServerInfo();
+        producer.send(applicationProperties.getApplicationTopic(), providedServerInfo);
         consumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
 
         assertThat(consumer.getLatch().getCount()).isGreaterThanOrEqualTo(0L);
-        assertThat(consumer.getPayload()).contains("paxos-topic");
-        assertThat(consumer.getPayload()).contains("Sending with own simple KafkaProducer");
+
+        ServerInfo receivedServerInfo = consumer.getPayload();
+        assertThat(receivedServerInfo.getName()).isEqualTo(providedServerInfo.getName());
     }
 }

@@ -1,22 +1,22 @@
 package bd.ac.buet.KeyValueStore.configuration;
 
+import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @Slf4j
 public class KafkaProducer {
-    private final KafkaProperties kafkaProperties;
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public KafkaProducer(KafkaProperties kafkaProperties, KafkaTemplate kafkaTemplate) {
-        this.kafkaProperties = kafkaProperties;
+    public KafkaProducer(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void send(String topic, String payload){
+    public void send(String topic, Object payload){
       log.debug("Sending payload for topic {}", topic);
-      kafkaTemplate.send(topic, payload);
+      this.kafkaTemplate.send(topic, payload);
     }
 }

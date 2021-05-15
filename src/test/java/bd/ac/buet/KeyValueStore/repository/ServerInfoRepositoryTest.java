@@ -46,4 +46,11 @@ public class ServerInfoRepositoryTest {
         assertEquals(serverInfoAfterSave.getId(), serverInfo.getId());
         assertEquals(serverInfoAfterSave.getName(), serverInfo.getName());
     }
+
+    public static ServerInfo createServerInfo(){
+       return ServerInfo
+                .builder()
+                .name("server1")
+                .updatedOn(Instant.now()).build();
+    }
 }

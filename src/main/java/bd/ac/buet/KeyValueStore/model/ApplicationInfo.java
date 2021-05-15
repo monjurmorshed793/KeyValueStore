@@ -8,14 +8,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("ServerInfo")
-public class ServerInfo {
+@RedisHash("ApplicationInfo")
+public class ApplicationInfo {
     @Id
     private String id;
     private String name;
