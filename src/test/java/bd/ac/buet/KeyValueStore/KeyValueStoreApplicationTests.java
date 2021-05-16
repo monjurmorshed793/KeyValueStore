@@ -2,6 +2,7 @@ package bd.ac.buet.KeyValueStore;
 
 import bd.ac.buet.KeyValueStore.configuration.TestRedisConfiguration;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
+import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
 import bd.ac.buet.KeyValueStore.service.KafkaConsumer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,9 @@ class KeyValueStoreApplicationTests {
 	@Autowired
 	private KafkaConsumer consumer;
 
+	@Autowired
+	private ServerInfoRepository serverInfoRepository;
+
 	@Value("${application.name}")
 	private String applicationName;
 
@@ -35,6 +39,9 @@ class KeyValueStoreApplicationTests {
 		consumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
 		ServerInfo receivedServerInfo = consumer.getPayload();
 		assertThat(receivedServerInfo.getName()).isEqualTo(applicationName);
+
+		long dataSize = serverInfoRepository.count();
+		assertThat(dataSize).isEqualTo(1l);
 	}
 
 }
