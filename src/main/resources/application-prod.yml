@@ -3,3 +3,16 @@ logging:
     ROOT: INFO
     tech.jhipster: INFO
     org.morshed: INFO
+spring:
+  redis:
+    host: localhost
+    port:${redis-port}
+  devtools:
+    restart:
+      enabled: false
+      additional-exclude: static/**,.h2.server.properties
+    livereload:
+      enabled: true # we use Webpack dev server + BrowserSync for livereload
+
+application:
+  name: ${server-name}

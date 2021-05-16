@@ -1,7 +1,11 @@
+/*
 package bd.ac.buet.KeyValueStore.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +20,15 @@ public class KafkaProperties {
 
     private String bootStrapServers = "localhost:9092";
 
-    private Map<String, String> consumer = new HashMap<>();
+    private Map<String, Object> consumer = new HashMap<>();
 
-    private Map<String, String> producer = new HashMap<>();
+    private Map<String, Object> producer = new HashMap<>();
+
+    private final ApplicationProperties applicationProperties;
+
+    public KafkaProperties(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
 
     public String getBootStrapServers() {
         return bootStrapServers;
@@ -30,36 +40,38 @@ public class KafkaProperties {
 
     public Map<String, Object> getConsumerProps() {
         Map<String, Object> properties = new HashMap<>(this.consumer);
-        if (!properties.containsKey("bootstrap.servers")) {
-            properties.put("bootstrap.servers", this.bootStrapServers);
-        }
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationProperties.getBootstrapServers());
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, applicationProperties.getConsumerValueDeserializer());
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, applicationProperties.getConsumerValueDeserializer());
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, applicationProperties.getConsumerGroupId());
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, applicationProperties.getConsumerAutoOffsetReset());
         return properties;
     }
 
-    public void setConsumer(Map<String, String> consumer) {
+    public void setConsumer(Map<String, Object> consumer) {
         this.consumer = consumer;
     }
 
     @Bean
-    public ConsumerFactory<String, String> consumerFactory(){
+    public ConsumerFactory<String, Object> consumerFactory(){
         return new DefaultKafkaConsumerFactory<>(getConsumerProps());
     }
 
     public Map<String, Object> getProducerProps() {
         Map<String, Object> properties = new HashMap<>(this.producer);
-        if (!properties.containsKey("bootstrap.servers")) {
-            properties.put("bootstrap.servers", this.bootStrapServers);
-        }
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, applicationProperties.getProducerKeySerializer());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, applicationProperties.getProducerValueSerializer());
         return properties;
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory(){
+    public ProducerFactory<String, Object> producerFactory(){
         return new DefaultKafkaProducerFactory<>(getProducerProps());
     }
 
 
-    public void setProducer(Map<String, String> producer) {
+    public void setProducer(Map<String, Object> producer) {
         this.producer = producer;
     }
 }
+*/

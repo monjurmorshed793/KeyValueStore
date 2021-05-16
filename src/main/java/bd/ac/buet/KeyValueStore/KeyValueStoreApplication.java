@@ -1,10 +1,14 @@
 package bd.ac.buet.KeyValueStore;
 
+import bd.ac.buet.KeyValueStore.service.KafkaProducer;
 import bd.ac.buet.KeyValueStore.service.MessageProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import javax.annotation.PostConstruct;
 
@@ -12,17 +16,18 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class KeyValueStoreApplication {
 
-	@Autowired
-	private MessageProcessor messageProcessor;
 
 	public static void main(String[] args) {
 		SpringApplication.run(KeyValueStoreApplication.class, args);
 	}
 
-	@PostConstruct
-	public void sendKafkaMessage() throws InterruptedException {
-		log.info("Sending kafka message post construct");
-		//messageProcessor.testSendMessage();
+	@Bean
+	public CommandLineRunner initiate(MessageProcessor messageProcessor,@Value("${application.name}") String applicationName){
+		return (args -> {
+			messageProcessor.initializeApplicationAndBroadcast();
+		});
 	}
+
+
 
 }
