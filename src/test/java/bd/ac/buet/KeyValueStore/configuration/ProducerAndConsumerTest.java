@@ -1,24 +1,27 @@
 package bd.ac.buet.KeyValueStore.configuration;
 
-import bd.ac.buet.KeyValueStore.configuration.KafkaConsumer;
-import bd.ac.buet.KeyValueStore.configuration.KafkaProducer;
+import bd.ac.buet.KeyValueStore.service.KafkaConsumer;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepositoryTest;
+import bd.ac.buet.KeyValueStore.service.KafkaProducer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-@SpringBootTest
-@DirtiesContext
-@EmbeddedKafka
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = TestRedisConfiguration.class)
+@ExtendWith(SpringExtension.class)
 public class ProducerAndConsumerTest {
     @Autowired
     private KafkaConsumer consumer;
@@ -39,4 +42,5 @@ public class ProducerAndConsumerTest {
         ServerInfo receivedServerInfo = consumer.getPayload();
         assertThat(receivedServerInfo.getName()).isEqualTo(providedServerInfo.getName());
     }
+
 }

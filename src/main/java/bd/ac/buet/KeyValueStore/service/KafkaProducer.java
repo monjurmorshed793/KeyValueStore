@@ -1,4 +1,4 @@
-package bd.ac.buet.KeyValueStore.configuration;
+package bd.ac.buet.KeyValueStore.service;
 
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import lombok.extern.slf4j.Slf4j;

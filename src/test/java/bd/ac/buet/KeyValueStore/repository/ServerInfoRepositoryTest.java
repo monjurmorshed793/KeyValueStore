@@ -27,6 +27,7 @@ public class ServerInfoRepositoryTest {
 
     @Test
     public void shouldSaveServerInfo(){
+        serverInfoRepository.deleteAll();
         ServerInfo serverInfo = new ServerInfo();
         serverInfo.setName("server1");
         serverInfo.setUpdatedOn(Instant.now());
@@ -36,6 +37,7 @@ public class ServerInfoRepositoryTest {
 
     @Test
     public void shouldRetrieveServerInfo(){
+        serverInfoRepository.deleteAll();
         ServerInfo serverInfo = ServerInfo
                 .builder()
                 .name("server1")

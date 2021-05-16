@@ -7,4 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ServerInfoRepository extends CrudRepository<ServerInfo, String> {
+    Optional<ServerInfo> findByNameEquals(String name);
 }

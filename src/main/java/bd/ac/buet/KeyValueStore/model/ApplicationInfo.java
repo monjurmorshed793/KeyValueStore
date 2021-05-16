@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.time.Instant;
 
@@ -16,6 +17,7 @@ import java.time.Instant;
 @RedisHash("ApplicationInfo")
 public class ApplicationInfo {
     @Id
+    @Indexed
     private String id;
     private String name;
     private Instant createdOn;
