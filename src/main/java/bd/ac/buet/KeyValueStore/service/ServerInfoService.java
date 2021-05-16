@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -19,13 +20,9 @@ public class ServerInfoService {
     }
 
     public ServerInfo storeServerInfo(ServerInfo serverInfo){
-        Iterable<ServerInfo> existingServerInfos = serverInfoRepository.findAll();
-        existingServerInfos.forEach(s->{
-            if(s.getName().equals(serverInfo.getName())){
-                this.serverInfoRepository.deleteById(s.getId());
-                return; // used to work like break as break statement doesn't work inside lamda foreach.
-            }
-        });
+        Optional<ServerInfo> existingServerInfo = serverInfoRepository.findByNameEquals(serverInfo.getName());
+        if(existingServerInfo.isPresent())
+            serverInfoRepository.deleteById(existingServerInfo.get().getId());
         return serverInfoRepository.save(serverInfo);
     }
 }

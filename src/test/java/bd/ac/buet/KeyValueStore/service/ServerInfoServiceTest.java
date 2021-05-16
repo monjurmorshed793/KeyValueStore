@@ -41,7 +41,6 @@ public class ServerInfoServiceTest {
 
     @Test
     public void storeServerInfoTest() throws Exception {
-        serverInfoRepository.deleteAll();
         storeInitialServerInfo();
         ServerInfo newServerInfo = ServerInfo
                 .builder()
