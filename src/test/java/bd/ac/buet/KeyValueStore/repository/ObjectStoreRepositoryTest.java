@@ -49,6 +49,8 @@ public class ObjectStoreRepositoryTest {
 
 
         ObjectStore storedObjectStore = objectStoreRepository.findById(objectStore.getId()).get();
+
+
         TestObject storedTestObject = gson.fromJson(storedObjectStore.getCustomObject(), TestObject.class);
         assertThat(storedTestObject.getId()).isEqualTo(testObject.getId());
         assertThat(storedTestObject.getName()).isEqualTo(testObject.getName());
