@@ -44,7 +44,12 @@ public class PaxosStoreService {
         List<DetailedPaxosStore> detailedPaxosStores = IteratorUtils.toList((detailedPaxosStoreRepository.findAllByPaxosStore_Id(paxosStore.getId())));
         PaxosStore latestPaxosStore = paxosStoreRepository.findById(paxosStore.getId()).get();
         if(latestPaxosStore.getState().equals(State.PROPOSER_REQUESTED)){
-
+            long totalProposerResponded = detailedPaxosStores.stream().filter(d-> d.getState().equals(State.PROPOSER_RESPONDED)).count();
+            long totalServers = detailedPaxosStores.stream().count();
+            if(totalServers==totalProposerResponded){
+                latestPaxosStore.setState(State.ACCEPTOR_REQUESTED);
+                // todo create acceptor service
+            }
         }
     }
 }
