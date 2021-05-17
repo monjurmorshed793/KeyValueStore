@@ -38,7 +38,7 @@ public class ProposerService {
         ProposerResponseDTO proposerResponse = new ProposerResponseDTO();
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
         proposerResponse.setServerInfo(selfServerInfo);
-        if(objectStoreRepository.existsById(tempData.getObjectId())){
+        if(!selfServerInfo.getId().equals(tempData.getProposedBy().getId()) && objectStoreRepository.existsById(tempData.getObjectId())){
             TempData existingData = objectStoreService.convertToTempData(objectStoreRepository.findById(tempData.getObjectId()).get());
             existingData.setProposedBy(tempData.getProposedBy());
             proposerResponse.setTempData(existingData);

@@ -1,5 +1,6 @@
 package bd.ac.buet.KeyValueStore.service;
 
+import bd.ac.buet.KeyValueStore.dto.ProposerResponseDTO;
 import bd.ac.buet.KeyValueStore.model.DetailedPaxosStore;
 import bd.ac.buet.KeyValueStore.model.PaxosStore;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
@@ -20,10 +21,12 @@ import java.util.List;
 public class DetailedPaxosStoreService {
     private final DetailedPaxosStoreRepository detailedPaxosStoreRepository;
     private final ServerInfoRepository serverInfoRepository;
+    private final PaxosStoreService paxosStoreService;
 
-    public DetailedPaxosStoreService(DetailedPaxosStoreRepository detailedPaxosStoreRepository, ServerInfoRepository serverInfoRepository) {
+    public DetailedPaxosStoreService(DetailedPaxosStoreRepository detailedPaxosStoreRepository, ServerInfoRepository serverInfoRepository, PaxosStoreService paxosStoreService) {
         this.detailedPaxosStoreRepository = detailedPaxosStoreRepository;
         this.serverInfoRepository = serverInfoRepository;
+        this.paxosStoreService = paxosStoreService;
     }
 
     public void createInitialDetailedPaxosStore(PaxosStore paxosStore){
@@ -35,7 +38,7 @@ public class DetailedPaxosStoreService {
                     .builder()
                     .paxosStore(paxosStore)
                     .serverInfo(serverInfo)
-                    .state(State.PROPOSER)
+                    .state(State.PROPOSER_REQUESTED)
                     .status(Status.IN_PROCESS)
                     .createdOn(Instant.now())
                     .updatedOn(Instant.now())
@@ -43,5 +46,14 @@ public class DetailedPaxosStoreService {
             detailedPaxosStores.add(detailedPaxosStore);
         }
         detailedPaxosStoreRepository.saveAll(detailedPaxosStores);
+    }
+
+    public void updateDetailedPaxosStoreOnProposalResponse(ProposerResponseDTO proposerResponse){
+        DetailedPaxosStore detailedPaxosStore = detailedPaxosStoreRepository.findByPaxosStore_TempData_IdAndServerInfo_Id(proposerResponse.getTempData().getId(), proposerResponse.getServerInfo().getId()).get();
+        detailedPaxosStore.setRespondedTempData(proposerResponse.getTempData());
+        detailedPaxosStore.setState(State.PROPOSER_RESPONDED);
+        detailedPaxosStore.setUpdatedOn(Instant.now());
+        detailedPaxosStoreRepository.save(detailedPaxosStore);
+        paxosStoreService.updatedPaxosStoreStatus(detailedPaxosStore.getPaxosStore());
     }
 }

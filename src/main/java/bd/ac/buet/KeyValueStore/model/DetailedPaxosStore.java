@@ -30,6 +30,7 @@ public class DetailedPaxosStore {
     @Reference
     @Indexed
     private ServerInfo serverInfo;
+    private TempData respondedTempData;
     private State state;
     private Status status;
     @CreatedDate
