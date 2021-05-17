@@ -1,11 +1,10 @@
 package bd.ac.buet.KeyValueStore.service;
 
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
-import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
+import bd.ac.buet.KeyValueStore.model.TempData;
+import bd.ac.buet.KeyValueStore.service.paxos.ProposerService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +18,11 @@ public class KafkaConsumer {
     private ServerInfo payload = null;
 
     private final ServerInfoService serverInfoService;
+    private final ProposerService proposerService;
 
-    public KafkaConsumer(ServerInfoService serverInfoService) {
+    public KafkaConsumer(ServerInfoService serverInfoService, ProposerService proposerService) {
         this.serverInfoService = serverInfoService;
+        this.proposerService = proposerService;
     }
 
     @KafkaListener(topics = "${application.topic}", groupId = "${spring.kafka.consumer.group-id}")
@@ -29,6 +30,11 @@ public class KafkaConsumer {
         payload = consumerRecord;
         serverInfoService.storeServerInfo(payload);
         latch.countDown();
+    }
+
+    @KafkaListener(topics = "proposer-request", groupId = "${spring.kafka.consumer.group-id}")
+    public void proposerRequest(TempData tempData){
+        proposerService.responseToProposer(tempData);
     }
 
     public CountDownLatch getLatch() {

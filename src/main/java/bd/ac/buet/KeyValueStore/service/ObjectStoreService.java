@@ -25,7 +25,7 @@ public class ObjectStoreService {
         ServerInfo parentServerInfo = serverInfoRepository.findByNameEquals(applicationInfo.getName()).get();
         TempData tempData = TempData
                 .builder()
-                .id(objectStore.getId())
+                .objectId(objectStore.getId())
                 .object(objectStore.getCustomObject())
                 .proposedBy(parentServerInfo)
                 .createdOn(objectStore.getCreatedOn()==null? Instant.now(): objectStore.getCreatedOn())

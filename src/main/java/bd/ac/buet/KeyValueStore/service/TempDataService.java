@@ -18,7 +18,7 @@ public class TempDataService {
     public ObjectStore convertToObjectStore(TempData tempData){
         ObjectStore objectStore = ObjectStore
                 .builder()
-                .id(tempData.getId())
+                .id(tempData.getObjectId()==null? tempData.getId(): tempData.getObjectId())
                 .customObject(tempData.getObject())
                 .createdOn(tempData.getCreatedOn())
                 .updatedOn(tempData.getUpdatedOn())

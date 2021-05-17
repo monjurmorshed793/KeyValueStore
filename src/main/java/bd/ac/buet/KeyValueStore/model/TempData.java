@@ -20,6 +20,8 @@ public class TempData {
     @Id
     @Indexed
     private String id;
+    @Indexed
+    private String objectId;
     private String object;
     @Indexed
     @Reference
