@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
@@ -21,7 +22,8 @@ public class TempData {
     private String id;
     private String object;
     @Indexed
-    private String proposedBy;
+    @Reference
+    private ServerInfo proposedBy;
     private Instant createdOn;
     private Instant updatedOn;
 }

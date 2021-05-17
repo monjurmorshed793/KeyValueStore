@@ -13,6 +13,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @RedisHash("ObjectStore")
 public class ObjectStore {
     @Id
