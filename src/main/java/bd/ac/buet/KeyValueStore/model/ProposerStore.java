@@ -17,8 +17,8 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("PaxosStore")
-public class PaxosStore {
+@RedisHash("ProposerStore")
+public class ProposerStore {
     @Id
     @Indexed
     private String id;

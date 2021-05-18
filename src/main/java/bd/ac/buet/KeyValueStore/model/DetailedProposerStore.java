@@ -19,14 +19,14 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("DetailedPaxosStore")
-public class DetailedPaxosStore {
+@RedisHash("DetailedProposerStore")
+public class DetailedProposerStore {
     @Id
     @Indexed
     private String id;
     @Indexed
     @Reference
-    private PaxosStore paxosStore;
+    private ProposerStore proposerStore;
     @Reference
     @Indexed
     private ServerInfo serverInfo;

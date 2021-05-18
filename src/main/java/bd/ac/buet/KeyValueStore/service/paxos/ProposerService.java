@@ -15,21 +15,23 @@ public class ProposerService {
     private final KafkaProducer kafkaProducer;
     private final ObjectStoreRepository objectStoreRepository;
     private final ServerInfoService serverInfoService;
-    private final PaxosStoreService paxosStoreService;
+    private final ProposerStoreService proposerStoreService;
+    private final DetailedProposerStoreService detailedProposerStoreService;
 
-    public ProposerService(TempDataService tempDataService, ObjectStoreService objectStoreService, KafkaProducer kafkaProducer, ObjectStoreRepository objectStoreRepository, ServerInfoService serverInfoService, PaxosStoreService paxosStoreService) {
+    public ProposerService(TempDataService tempDataService, ObjectStoreService objectStoreService, KafkaProducer kafkaProducer, ObjectStoreRepository objectStoreRepository, ServerInfoService serverInfoService, ProposerStoreService proposerStoreService, DetailedProposerStoreService detailedProposerStoreService) {
         this.tempDataService = tempDataService;
         this.objectStoreService = objectStoreService;
         this.kafkaProducer = kafkaProducer;
         this.objectStoreRepository = objectStoreRepository;
         this.serverInfoService = serverInfoService;
-        this.paxosStoreService = paxosStoreService;
+        this.proposerStoreService = proposerStoreService;
+        this.detailedProposerStoreService = detailedProposerStoreService;
     }
 
     public ObjectStore propose(ObjectStore objectStore){
         TempData tempData = objectStoreService.convertToTempData(objectStore);
         tempData = tempDataService.save(tempData);
-        paxosStoreService.createInitialPaxosStore(tempData);
+        proposerStoreService.createInitialProposerStore(tempData);
         kafkaProducer.send("proposer-request", tempData);
         return tempDataService.convertToObjectStore(tempData);
     }
@@ -51,7 +53,7 @@ public class ProposerService {
     public void processProposerResponse(ProposerResponseDTO proposerResponse){
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
         if(proposerResponse.getTempData().getProposedBy().getId().equals(selfServerInfo.getId())){
-
+            detailedProposerStoreService.updateDetailedProposerStoreOnProposalResponse(proposerResponse);
         }
     }
 }

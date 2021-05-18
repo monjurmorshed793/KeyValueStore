@@ -1,5 +1,6 @@
 package bd.ac.buet.KeyValueStore.service;
 
+import bd.ac.buet.KeyValueStore.dto.ProposerResponseDTO;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.TempData;
 import bd.ac.buet.KeyValueStore.service.paxos.ProposerService;
@@ -35,6 +36,11 @@ public class KafkaConsumer {
     @KafkaListener(topics = "proposer-request", groupId = "${spring.kafka.consumer.group-id}")
     public void proposerRequest(TempData tempData){
         proposerService.responseToProposer(tempData);
+    }
+
+    @KafkaListener(topics = "proposer-response", groupId = "${spring.kafka.consumer.group-id}")
+    public void receiveProposerResponse(ProposerResponseDTO proposerResponse){
+        proposerService.processProposerResponse(proposerResponse);
     }
 
     public CountDownLatch getLatch() {
