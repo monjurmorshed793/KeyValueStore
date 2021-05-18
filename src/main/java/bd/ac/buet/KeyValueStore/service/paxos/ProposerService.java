@@ -5,6 +5,7 @@ import bd.ac.buet.KeyValueStore.model.ObjectStore;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.TempData;
 import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
+import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
 import bd.ac.buet.KeyValueStore.service.*;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,9 @@ public class ProposerService {
     private final ServerInfoService serverInfoService;
     private final ProposerStoreService proposerStoreService;
     private final DetailedProposerStoreService detailedProposerStoreService;
+    private final TempDataRepository tempDataRepository;
 
-    public ProposerService(TempDataService tempDataService, ObjectStoreService objectStoreService, KafkaProducer kafkaProducer, ObjectStoreRepository objectStoreRepository, ServerInfoService serverInfoService, ProposerStoreService proposerStoreService, DetailedProposerStoreService detailedProposerStoreService) {
+    public ProposerService(TempDataService tempDataService, ObjectStoreService objectStoreService, KafkaProducer kafkaProducer, ObjectStoreRepository objectStoreRepository, ServerInfoService serverInfoService, ProposerStoreService proposerStoreService, DetailedProposerStoreService detailedProposerStoreService, TempDataRepository tempDataRepository) {
         this.tempDataService = tempDataService;
         this.objectStoreService = objectStoreService;
         this.kafkaProducer = kafkaProducer;
@@ -26,6 +28,7 @@ public class ProposerService {
         this.serverInfoService = serverInfoService;
         this.proposerStoreService = proposerStoreService;
         this.detailedProposerStoreService = detailedProposerStoreService;
+        this.tempDataRepository = tempDataRepository;
     }
 
     public ObjectStore propose(ObjectStore objectStore){
@@ -37,6 +40,9 @@ public class ProposerService {
     }
 
     public void responseToProposer(TempData tempData){
+        if(!tempDataRepository.existsById(tempData.getId())){
+            tempDataRepository.save(tempData);
+        }
         ProposerResponseDTO proposerResponse = new ProposerResponseDTO();
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
         proposerResponse.setServerInfo(selfServerInfo);
