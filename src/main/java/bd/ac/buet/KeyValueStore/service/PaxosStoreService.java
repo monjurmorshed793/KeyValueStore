@@ -47,6 +47,7 @@ public class PaxosStoreService {
             long totalProposerResponded = detailedPaxosStores.stream().filter(d-> d.getState().equals(State.PROPOSER_RESPONDED)).count();
             long totalServers = detailedPaxosStores.stream().count();
             if(totalServers==totalProposerResponded){
+
                 latestPaxosStore.setState(State.ACCEPTOR_REQUESTED);
                 // todo create acceptor service
             }
