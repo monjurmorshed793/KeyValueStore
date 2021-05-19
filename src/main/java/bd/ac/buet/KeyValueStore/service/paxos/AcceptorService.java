@@ -22,6 +22,7 @@ public class AcceptorService {
 
     public void processAcceptorRequest(TempData tempData){
         learnerStoreService.createLearnerStore(tempData);
+        sendLearnerRequest(tempData);
     }
 
     public void sendLearnerRequest(TempData tempData){
