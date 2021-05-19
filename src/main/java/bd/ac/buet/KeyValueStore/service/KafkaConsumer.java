@@ -20,10 +20,12 @@ public class KafkaConsumer {
 
     private final ServerInfoService serverInfoService;
     private final ProposerService proposerService;
+    private final KafkaProducer kafkaProducer;
 
-    public KafkaConsumer(ServerInfoService serverInfoService, ProposerService proposerService) {
+    public KafkaConsumer(ServerInfoService serverInfoService, ProposerService proposerService, KafkaProducer kafkaProducer) {
         this.serverInfoService = serverInfoService;
         this.proposerService = proposerService;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @KafkaListener(topics = "${application.topic}", groupId = "${spring.kafka.consumer.group-id}")

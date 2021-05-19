@@ -4,6 +4,7 @@ import bd.ac.buet.KeyValueStore.model.ApplicationInfo;
 import bd.ac.buet.KeyValueStore.model.ObjectStore;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.TempData;
+import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.ApplicationInfoRepository;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ObjectStoreService {
                 .objectId(objectStore.getId())
                 .object(objectStore.getCustomObject())
                 .proposedBy(parentServerInfo)
+                .status(Status.IN_PROCESS)
                 .createdOn(objectStore.getCreatedOn()==null? Instant.now(): objectStore.getCreatedOn())
                 .updatedOn(Instant.now())
                 .build();

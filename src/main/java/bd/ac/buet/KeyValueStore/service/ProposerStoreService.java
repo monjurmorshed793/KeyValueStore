@@ -57,6 +57,8 @@ public class ProposerStoreService {
                 }else{
                     latestProposerStore.setState(State.PROPOSER_RESPONDED);
                     latestProposerStore.setStatus(Status.REJECTED);
+                    TempData tempData = latestProposerStore.getTempData();
+                    tempData.setStatus(Status.REJECTED);
                 }
                 latestProposerStore.setUpdatedOn(Instant.now());
                 proposerStoreRepository.save(latestProposerStore);
