@@ -18,11 +18,13 @@ public class ProposerStoreService {
     private final ProposerStoreRepository proposerStoreRepository;
     private final DetailedProposerStoreService detailedProposerStoreService;
     private final DetailedProposerStoreRepository detailedProposerStoreRepository;
+    private final KafkaProducer kafkaProducer;
 
-    public ProposerStoreService(ProposerStoreRepository proposerStoreRepository, DetailedProposerStoreService detailedProposerStoreService, DetailedProposerStoreRepository detailedProposerStoreRepository) {
+    public ProposerStoreService(ProposerStoreRepository proposerStoreRepository, DetailedProposerStoreService detailedProposerStoreService, DetailedProposerStoreRepository detailedProposerStoreRepository, KafkaProducer kafkaProducer) {
         this.proposerStoreRepository = proposerStoreRepository;
         this.detailedProposerStoreService = detailedProposerStoreService;
         this.detailedProposerStoreRepository = detailedProposerStoreRepository;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public void createInitialProposerStore(TempData tempData){
@@ -53,7 +55,7 @@ public class ProposerStoreService {
                 if(latestTempData.getId().equals(proposerStore.getTempData().getId())){
                     latestProposerStore.setState(State.ACCEPTOR_REQUESTED);
                     latestProposerStore.setStatus(Status.ACCEPTED);
-                    // todo create acceptor service
+                    kafkaProducer.send("acceptor-request", proposerStore.getTempData());
                 }else{
                     latestProposerStore.setState(State.PROPOSER_RESPONDED);
                     latestProposerStore.setStatus(Status.REJECTED);

@@ -6,6 +6,7 @@ import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.TempData;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.ApplicationInfoRepository;
+import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ import java.time.Instant;
 public class ObjectStoreService {
     private final ApplicationInfoRepository applicationInfoRepository;
     private final ServerInfoRepository serverInfoRepository;
+    private final ObjectStoreRepository objectStoreRepository;
 
-    public ObjectStoreService(ApplicationInfoRepository applicationInfoRepository, ServerInfoRepository serverInfoRepository) {
+    public ObjectStoreService(ApplicationInfoRepository applicationInfoRepository, ServerInfoRepository serverInfoRepository, ObjectStoreRepository objectStoreRepository) {
         this.applicationInfoRepository = applicationInfoRepository;
         this.serverInfoRepository = serverInfoRepository;
+        this.objectStoreRepository = objectStoreRepository;
     }
 
     public TempData convertToTempData(ObjectStore objectStore){
@@ -34,5 +37,24 @@ public class ObjectStoreService {
                 .updatedOn(Instant.now())
                 .build();
         return tempData;
+    }
+
+    public ObjectStore createOrUpdateObjectStore(TempData tempData){
+        if(tempData.getObjectId()!=null && objectStoreRepository.existsById(tempData.getObjectId())){
+            ObjectStore objectStore = ObjectStore
+                    .builder()
+                    .id(tempData.getObjectId())
+                    .customObject(tempData.getObject())
+                    .updatedOn(Instant.now())
+                    .build();
+            return objectStoreRepository.save(objectStore);
+        }else{
+            ObjectStore objectStore = ObjectStore
+                    .builder()
+                    .customObject(tempData.getObject())
+                    .updatedOn(Instant.now())
+                    .build();
+            return objectStoreRepository.save(objectStore);
+        }
     }
 }

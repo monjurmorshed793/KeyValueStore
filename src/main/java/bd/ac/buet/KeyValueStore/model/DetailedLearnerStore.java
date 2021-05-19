@@ -26,7 +26,7 @@ public class DetailedLearnerStore {
     private String id;
     @Indexed
     @Reference
-    private LearnerStore proposerStore;
+    private LearnerStore learnerStore;
     @Reference
     @Indexed
     private ServerInfo serverInfo;
