@@ -2,10 +2,8 @@ package bd.ac.buet.KeyValueStore.repository;
 
 import bd.ac.buet.KeyValueStore.configuration.TestRedisConfiguration;
 import bd.ac.buet.KeyValueStore.model.ObjectStore;
-import bd.ac.buet.KeyValueStore.repository.helper.TestObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import bd.ac.buet.KeyValueStore.helper.models.TestObject;
 import com.google.gson.Gson;
-import net.minidev.json.reader.JsonWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -15,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
-import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,7 +23,7 @@ public class ObjectStoreRepositoryTest {
     @Autowired
     private ObjectStoreRepository objectStoreRepository;
 
-    private TestObject createTestObject(){
+    public TestObject createTestObject(){
         return TestObject
                 .builder()
                 .id("1")

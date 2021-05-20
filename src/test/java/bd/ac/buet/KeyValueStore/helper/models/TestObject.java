@@ -1,4 +1,4 @@
-package bd.ac.buet.KeyValueStore.repository.helper;
+package bd.ac.buet.KeyValueStore.helper.models;
 
 import lombok.*;
 
