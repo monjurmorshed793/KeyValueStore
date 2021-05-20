@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@Slf4j
 public class KeyValueStoreApplication {
 
 

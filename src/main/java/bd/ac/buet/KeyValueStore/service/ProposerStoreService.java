@@ -8,6 +8,7 @@ import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.DetailedProposerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ProposerStoreRepository;
 import org.apache.commons.collections4.IteratorUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,7 +21,7 @@ public class ProposerStoreService {
     private final DetailedProposerStoreRepository detailedProposerStoreRepository;
     private final KafkaProducer kafkaProducer;
 
-    public ProposerStoreService(ProposerStoreRepository proposerStoreRepository, DetailedProposerStoreService detailedProposerStoreService, DetailedProposerStoreRepository detailedProposerStoreRepository, KafkaProducer kafkaProducer) {
+    public ProposerStoreService(ProposerStoreRepository proposerStoreRepository, @Lazy DetailedProposerStoreService detailedProposerStoreService, DetailedProposerStoreRepository detailedProposerStoreRepository, KafkaProducer kafkaProducer) {
         this.proposerStoreRepository = proposerStoreRepository;
         this.detailedProposerStoreService = detailedProposerStoreService;
         this.detailedProposerStoreRepository = detailedProposerStoreRepository;

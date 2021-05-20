@@ -1,9 +1,9 @@
-#logging:
-#  level:
-#    ROOT: DEBUG
-#    tech.jhipster: DEBUG
-#    org.hibernate.SQL: DEBUG
-#    org.morshed: DEBUG
+logging:
+  level:
+    ROOT: DEBUG
+    tech.jhipster: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.morshed: DEBUG
 
 spring:
   redis:

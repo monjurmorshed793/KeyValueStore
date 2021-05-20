@@ -9,6 +9,7 @@ import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.DetailedProposerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -23,7 +24,7 @@ public class DetailedProposerStoreService {
     private final ServerInfoRepository serverInfoRepository;
     private final ProposerStoreService proposerStoreService;
 
-    public DetailedProposerStoreService(DetailedProposerStoreRepository detailedProposerStoreRepository, ServerInfoRepository serverInfoRepository, ProposerStoreService proposerStoreService) {
+    public DetailedProposerStoreService(DetailedProposerStoreRepository detailedProposerStoreRepository, ServerInfoRepository serverInfoRepository, @Lazy ProposerStoreService proposerStoreService) {
         this.detailedProposerStoreRepository = detailedProposerStoreRepository;
         this.serverInfoRepository = serverInfoRepository;
         this.proposerStoreService = proposerStoreService;
