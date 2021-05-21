@@ -35,11 +35,11 @@ public class KafkaConsumer {
         this.learnerService = learnerService;
     }
 
-    @KafkaListener(topics = "${application.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "server-info", groupId = "${spring.kafka.consumer.group-id}")
     public void receive(ServerInfo consumerRecord) {
         payload = consumerRecord;
         serverInfoService.storeServerInfo(payload);
-        latch.countDown();
+        //latch.countDown();
     }
 
     @KafkaListener(topics = "proposer-request", groupId = "${spring.kafka.consumer.group-id}")

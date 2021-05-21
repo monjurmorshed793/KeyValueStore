@@ -44,7 +44,7 @@ public class MessageProcessor {
                 .updatedOn(Instant.now())
                 .build();
         applicationInfo = applicationInfoRepository.save(applicationInfo);
-        kafkaTemplate.send(applicationProperties.getApplicationTopic(), applicationInfoService.convert(applicationInfo));
+        kafkaTemplate.send("server-info", applicationInfoService.convert(applicationInfo));
     }
 
 }

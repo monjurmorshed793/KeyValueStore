@@ -3,6 +3,8 @@ package bd.ac.buet.KeyValueStore.controller;
 import bd.ac.buet.KeyValueStore.model.ObjectStore;
 import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.service.paxos.ProposerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,12 +22,12 @@ public class DataStorageController {
     }
 
     @PutMapping("/")
-    public  ObjectStore storeOrUpdateData(ObjectStore objectStore){
-        return proposerService.propose(objectStore);
+    public ResponseEntity<ObjectStore> storeOrUpdateData(ObjectStore objectStore){
+        return new ResponseEntity<>(proposerService.propose(objectStore), HttpStatus.OK);
     }
 
     @GetMapping ("/id/{id}")
-    public ObjectStore getData( @PathVariable String id){
-        return objectStoreRepository.findById(id).get();
+    public ResponseEntity<ObjectStore> getData( @PathVariable String id){
+        return new ResponseEntity<>(objectStoreRepository.findById(id).get(), HttpStatus.OK);
     }
 }

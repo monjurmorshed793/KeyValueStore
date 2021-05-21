@@ -7,9 +7,11 @@ import bd.ac.buet.KeyValueStore.model.TempData;
 import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
 import bd.ac.buet.KeyValueStore.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ProposerService {
     private final TempDataService tempDataService;
     private final ObjectStoreService objectStoreService;
