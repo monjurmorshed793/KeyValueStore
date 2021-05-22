@@ -42,5 +42,8 @@ public class ProposerServiceTest {
         assertThat(tempDataRepository).isNotNull();
     }
 
+    @Test
+    public void testPropose(){
 
+    }
 }

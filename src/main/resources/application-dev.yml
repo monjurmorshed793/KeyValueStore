@@ -18,4 +18,14 @@ spring:
 
 application:
   name: server1
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+  instance:
+    instance-id: keyvaluestore
+    hostname: localhost
+    appname: keyvaluestore
+    virtual-host-name: keyvaluestore
+
 

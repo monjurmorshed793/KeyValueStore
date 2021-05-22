@@ -19,6 +19,7 @@ public class ApplicationInfo {
     @Id
     @Indexed
     private String id;
+    @Indexed
     private String name;
     private Instant createdOn;
     private Instant updatedOn;
