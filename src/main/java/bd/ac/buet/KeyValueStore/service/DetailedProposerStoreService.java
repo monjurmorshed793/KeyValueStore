@@ -50,7 +50,7 @@ public class DetailedProposerStoreService {
     }
 
     public void updateDetailedProposerStoreOnProposalResponse(ProposerResponseDTO proposerResponse){
-        DetailedProposerStore detailedProposerStore = detailedProposerStoreRepository.findByPaxosStore_TempData_IdAndServerInfo_Id(proposerResponse.getTempData().getId(), proposerResponse.getServerInfo().getId()).get();
+        DetailedProposerStore detailedProposerStore = detailedProposerStoreRepository.findByProposerStoreTempDataIdAndServerInfoId(proposerResponse.getTempData().getId(), proposerResponse.getServerInfo().getId()).get();
         detailedProposerStore.setRespondedTempData(proposerResponse.getTempData());
         detailedProposerStore.setState(State.PROPOSER_RESPONDED);
         detailedProposerStore.setUpdatedOn(Instant.now());

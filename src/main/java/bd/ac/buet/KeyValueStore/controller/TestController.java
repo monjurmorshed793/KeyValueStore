@@ -8,6 +8,6 @@ public class TestController {
 
     @GetMapping("/test-hello")
     public String testResponse(){
-        return "Hello from Key value store";
+        return "Hello from Key value store- from test controller xxxx";
     }
 }

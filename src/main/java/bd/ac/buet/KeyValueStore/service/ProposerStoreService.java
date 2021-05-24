@@ -42,7 +42,7 @@ public class ProposerStoreService {
     }
 
     public void updatedProposerStoreStatus(ProposerStore proposerStore){
-        List<DetailedProposerStore> detailedProposerStores = IteratorUtils.toList((detailedProposerStoreRepository.findAllByPaxosStore_Id(proposerStore.getId())));
+        List<DetailedProposerStore> detailedProposerStores = IteratorUtils.toList((detailedProposerStoreRepository.findAllByProposerStoreId(proposerStore.getId())));
         ProposerStore latestProposerStore = proposerStoreRepository.findById(proposerStore.getId()).get();
         if(latestProposerStore.getState().equals(State.PROPOSER_REQUESTED)){
             long totalProposerResponded = detailedProposerStores.stream().filter(d-> d.getState().equals(State.PROPOSER_RESPONDED)).count();

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Optional;
 
 public interface DetailedProposerStoreRepository extends CrudRepository<DetailedProposerStore, String> {
-    Optional<DetailedProposerStore> findByPaxosStore_TempData_IdAndServerInfo_Id(String tempDataId, String serverInfoId);
+    Optional<DetailedProposerStore> findByProposerStoreTempDataIdAndServerInfoId(String tempDataId, String serverInfoId);
 
-    Iterator<DetailedProposerStore> findAllByPaxosStore_Id(String paxosStoreId);
+    Iterator<DetailedProposerStore> findAllByProposerStoreId(String paxosStoreId);
 }

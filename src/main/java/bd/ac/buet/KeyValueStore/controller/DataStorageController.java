@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@FeignClient("data-storage")
 public class DataStorageController {
 
     private final ProposerService proposerService;

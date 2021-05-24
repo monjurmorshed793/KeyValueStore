@@ -25,7 +25,6 @@ public class TempData {
     private String objectId;
     private String object;
     @Indexed
-    @Reference
     private ServerInfo proposedBy;
     private Status status;
     private Instant createdOn;

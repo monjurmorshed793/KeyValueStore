@@ -25,9 +25,7 @@ public class DetailedProposerStore {
     @Indexed
     private String id;
     @Indexed
-    @Reference
     private ProposerStore proposerStore;
-    @Reference
     @Indexed
     private ServerInfo serverInfo;
     private TempData respondedTempData;

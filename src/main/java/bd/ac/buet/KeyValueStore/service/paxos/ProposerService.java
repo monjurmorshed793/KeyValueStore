@@ -60,8 +60,9 @@ public class ProposerService {
 
     public void processProposerResponse(ProposerResponseDTO proposerResponse){
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
-        if(proposerResponse.getTempData().getProposedBy().getId().equals(selfServerInfo.getId())){
-            detailedProposerStoreService.updateDetailedProposerStoreOnProposalResponse(proposerResponse);
-        }
+        detailedProposerStoreService.updateDetailedProposerStoreOnProposalResponse(proposerResponse);
+//        if(proposerResponse.getTempData().getProposedBy().getId().equals(selfServerInfo.getId())){
+//
+//        }
     }
 }
