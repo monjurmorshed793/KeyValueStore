@@ -11,9 +11,11 @@ import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
 import bd.ac.buet.KeyValueStore.service.DetailedLearnerStoreService;
 import bd.ac.buet.KeyValueStore.service.LearnerStoreService;
 import bd.ac.buet.KeyValueStore.service.ObjectStoreService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class LearnerService {
     private final DetailedLearnerStoreRepository detailedLearnerStoreRepository;
     private final LearnerStoreRepository learnerStoreRepository;
@@ -32,10 +34,11 @@ public class LearnerService {
     }
 
     public void processLearnerRequest(LearnerRequestDto learnerRequestDto){
-        if (!detailedLearnerStoreRepository.existsByServerInfoIdAndLearnerStoreTempDataId(learnerRequestDto.getServerInfo().getId(), learnerRequestDto.getTempData().getId())) {
+        if (!detailedLearnerStoreRepository.findByServerInfoIdAndLearnerStoreTempDataId(learnerRequestDto.getServerInfo().getId(), learnerRequestDto.getTempData().getId()).isPresent()) {
             DetailedLearnerStore detailedLearnerStore = detailedLearnerStoreService.create(learnerRequestDto);
             LearnerStore learnerStore =  learnerStoreService.updateLearnerStore(detailedLearnerStore.getLearnerStore());
-            if(learnerStore.getState().equals(Status.ACCEPTED)){
+            log.info(learnerStore.getStatus().name());
+            if(learnerStore.getStatus().equals(Status.ACCEPTED)){
                 objectStoreService.createOrUpdateObjectStore(learnerStore.getTempData());
                 TempData tempData = learnerStore.getTempData();
                 tempData.setStatus(Status.ACCEPTED);
