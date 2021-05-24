@@ -68,7 +68,7 @@ public class DataStorageController {
                 .body(tempDataList);
     }
 
-    @GetMapping("/temp-data-status")
+    @GetMapping("/temp-data-by-status")
     public ResponseEntity<List<TempData>> getTempDataByObjectIdAndStatus(@RequestParam("object-id") String objectId,
                                                                          @RequestParam("status") Status status){
         List<TempData> tempDataList = tempDataRepository.findByObjectIdAndStatusOrderByCreatedOnDesc(objectId, status);
