@@ -10,6 +10,8 @@ import bd.ac.buet.KeyValueStore.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class ProposerService {
@@ -36,6 +38,10 @@ public class ProposerService {
     public ObjectStore propose(ObjectStore objectStore){
         TempData tempData = objectStoreService.convertToTempData(objectStore);
         tempData = tempDataService.save(tempData);
+        if(tempData.getObjectId()==null){
+            tempData.setObjectId(tempData.getId());
+            tempData = tempDataService.save(tempData);
+        }
         proposerStoreService.createInitialProposerStore(tempData);
         kafkaProducer.send("proposer-request", tempData);
         return tempDataService.convertToObjectStore(tempData);
@@ -48,8 +54,9 @@ public class ProposerService {
         ProposerResponseDTO proposerResponse = new ProposerResponseDTO();
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
         proposerResponse.setServerInfo(selfServerInfo);
-        if(!selfServerInfo.getId().equals(tempData.getProposedBy().getId()) && objectStoreRepository.existsById(tempData.getObjectId())){
-            TempData existingData = objectStoreService.convertToTempData(objectStoreRepository.findById(tempData.getObjectId()).get());
+        if(!selfServerInfo.getId().equals(tempData.getProposedBy().getId())){
+            List<TempData> existingTempData = tempDataRepository.findByObjectIdOrderByCreatedOnDesc(tempData.getObjectId());
+            TempData existingData = existingTempData.get(0);
             existingData.setProposedBy(tempData.getProposedBy());
             proposerResponse.setTempData(existingData);
         }else{
