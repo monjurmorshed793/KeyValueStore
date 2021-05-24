@@ -15,6 +15,10 @@ public class TempDataService {
         this.tempDataRepository = tempDataRepository;
     }
 
+    public void deleteAllTempData(){
+        tempDataRepository.deleteAll();
+    }
+
     public ObjectStore convertToObjectStore(TempData tempData){
         ObjectStore objectStore = ObjectStore
                 .builder()
