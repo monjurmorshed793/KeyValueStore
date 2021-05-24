@@ -2,17 +2,30 @@ logging:
   level:
     ROOT: INFO
     tech.jhipster: INFO
+    org.hibernate.SQL: INFO
     org.morshed: INFO
+
 spring:
   redis:
     host: localhost
-    port:${redis-port}
+    port: ${REDIS_PORT}
   devtools:
     restart:
-      enabled: false
+      enabled: true
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: true # we use Webpack dev server + BrowserSync for livereload
 
 application:
-  name: ${server-name}
+  name: ${SERVER_NAME}
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+  instance:
+    instance-id: keyvaluestore
+    hostname: localhost
+    appname: keyvaluestore
+    virtual-host-name: keyvaluestore
+
+
