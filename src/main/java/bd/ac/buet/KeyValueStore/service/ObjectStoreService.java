@@ -51,6 +51,7 @@ public class ObjectStoreService {
         }else{
             ObjectStore objectStore = ObjectStore
                     .builder()
+                    .id(tempData.getId())
                     .customObject(tempData.getObject())
                     .updatedOn(Instant.now())
                     .build();
