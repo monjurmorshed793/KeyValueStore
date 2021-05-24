@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
 import java.util.Iterator;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestRedisConfiguration.class)
@@ -78,7 +79,8 @@ public class DetailedProposerStoreRepositoryTest {
 
         DetailedProposerStore fetchDetailedProposerStore = detailedProposerStoreRepository.findById(detailedProposerStore.getId()).get();
 
-        Iterator<DetailedProposerStore> detailedProposerStoreIterator = detailedProposerStoreRepository.findAllByProposerStoreId(proposerStore.getId());
+        DetailedProposerStore detailedProposerStore1 = detailedProposerStoreRepository.findByProposerStoreTempDataIdAndServerInfoId(tempData.getId(), serverInfo.getId()).get();
+        List<DetailedProposerStore> detailedProposerStoreIterator = detailedProposerStoreRepository.findByProposerStoreId(proposerStore.getId());
 
     }
 }

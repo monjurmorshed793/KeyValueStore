@@ -46,7 +46,7 @@ public class LearnerStoreService {
     }
 
     public LearnerStore updateLearnerStore(LearnerStore learnerStore){
-        List<DetailedLearnerStore> detailedLearnerStoreList = IteratorUtils.toList(detailedLearnerStoreRepository.findAllByLearnerStore_Id(learnerStore.getId()));
+        List<DetailedLearnerStore> detailedLearnerStoreList = detailedLearnerStoreRepository.findAllByLearnerStoreId(learnerStore.getId());
         List<ServerInfo> serverInfoList = IteratorUtils.toList(serverInfoRepository.findAll().iterator());
         if(detailedLearnerStoreList.size() == serverInfoList.size()){
             learnerStore.setState(State.LEARNER_RESPONDED);
