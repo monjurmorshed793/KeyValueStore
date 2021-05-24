@@ -1,26 +1,26 @@
 package bd.ac.buet.KeyValueStore.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("ApplicationInfo")
-public class ApplicationInfo {
+@AllArgsConstructor
+@Builder
+@RedisHash("ObjectStore")
+public class ObjectStore {
     @Id
     @Indexed
     private String id;
     @Indexed
-    private String name;
+    private String customObject;
     private Instant createdOn;
     private Instant updatedOn;
 }

@@ -1,9 +1,9 @@
-#logging:
-#  level:
-#    ROOT: DEBUG
-#    tech.jhipster: DEBUG
-#    org.hibernate.SQL: DEBUG
-#    org.morshed: DEBUG
+logging:
+  level:
+    ROOT: INFO
+    tech.jhipster: INFO
+    org.hibernate.SQL: INFO
+    org.morshed: INFO
 
 spring:
   redis:
@@ -18,4 +18,14 @@ spring:
 
 application:
   name: server1
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+  instance:
+    instance-id: keyvaluestore
+    hostname: localhost
+    appname: keyvaluestore
+    virtual-host-name: keyvaluestore
+
 

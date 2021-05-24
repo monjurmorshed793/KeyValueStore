@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 
 
 @Service
@@ -38,13 +39,14 @@ public class MessageProcessor {
     }
 
     public void initializeApplicationAndBroadcast(){
+        applicationInfoRepository.deleteAll();
         ApplicationInfo applicationInfo = ApplicationInfo.builder()
                 .name(this.applicationName)
                 .createdOn(Instant.now())
                 .updatedOn(Instant.now())
                 .build();
         applicationInfo = applicationInfoRepository.save(applicationInfo);
-        kafkaTemplate.send(applicationProperties.getApplicationTopic(), applicationInfoService.convert(applicationInfo));
+        kafkaTemplate.send("server-info", applicationInfoService.convert(applicationInfo));
     }
 
 }
