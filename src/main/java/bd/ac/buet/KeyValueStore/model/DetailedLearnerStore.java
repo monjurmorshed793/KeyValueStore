@@ -25,15 +25,11 @@ public class DetailedLearnerStore {
     @Indexed
     private String id;
     @Indexed
-    @Reference
     private LearnerStore learnerStore;
-    @Reference
     @Indexed
     private ServerInfo serverInfo;
     private State state;
     private Status status;
-    @CreatedDate
     private Instant createdOn;
-    @LastModifiedDate
     private Instant updatedOn;
 }

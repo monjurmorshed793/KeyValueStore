@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface LearnerStoreRepository extends CrudRepository<LearnerStore, String> {
-    Optional<LearnerStore> findByTempData_Id(String tempDataId);
+    Optional<LearnerStore> findByTempDataId(String tempDataId);
 }

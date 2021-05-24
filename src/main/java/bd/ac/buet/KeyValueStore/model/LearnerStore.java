@@ -22,7 +22,6 @@ public class LearnerStore {
     @Id
     @Indexed
     private String id;
-    @Reference
     @Indexed
     private TempData tempData;
     @Indexed

@@ -32,7 +32,7 @@ public class LearnerService {
     }
 
     public void processLearnerRequest(LearnerRequestDto learnerRequestDto){
-        if (!detailedLearnerStoreRepository.existsByServerInfo_IdAndLearnerStore_TempData_Id(learnerRequestDto.getServerInfo().getId(), learnerRequestDto.getTempData().getId())) {
+        if (!detailedLearnerStoreRepository.existsByServerInfoIdAndLearnerStoreTempDataId(learnerRequestDto.getServerInfo().getId(), learnerRequestDto.getTempData().getId())) {
             DetailedLearnerStore detailedLearnerStore = detailedLearnerStoreService.create(learnerRequestDto);
             LearnerStore learnerStore =  learnerStoreService.updateLearnerStore(detailedLearnerStore.getLearnerStore());
             if(learnerStore.getState().equals(Status.ACCEPTED)){

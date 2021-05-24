@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public interface DetailedLearnerStoreRepository extends CrudRepository<DetailedLearnerStore, String> {
 
-    Boolean existsByServerInfo_IdAndLearnerStore_TempData_Id(String serverInfoId, String tempDataId);
+    Boolean existsByServerInfoIdAndLearnerStoreTempDataId(String serverInfoId, String tempDataId);
 
     Iterator<DetailedLearnerStore> findAllByLearnerStore_Id(String learnerStoreId);
 

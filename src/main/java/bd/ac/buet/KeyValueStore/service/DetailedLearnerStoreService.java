@@ -22,7 +22,7 @@ public class DetailedLearnerStoreService {
     }
 
     public DetailedLearnerStore create(LearnerRequestDto learnerRequestDto){
-        LearnerStore learnerStore = learnerStoreRepository.findByTempData_Id(learnerRequestDto.getTempData().getId()).get();
+        LearnerStore learnerStore = learnerStoreRepository.findByTempDataId(learnerRequestDto.getTempData().getId()).get();
         DetailedLearnerStore detailedLearnerStore = DetailedLearnerStore
                 .builder()
                 .learnerStore(learnerStore)
