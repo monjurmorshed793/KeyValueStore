@@ -2,17 +2,13 @@ package bd.ac.buet.KeyValueStore.controller;
 
 import bd.ac.buet.KeyValueStore.dto.response.ObjectStoreResponse;
 import bd.ac.buet.KeyValueStore.dto.response.TempDataListResponse;
-import bd.ac.buet.KeyValueStore.dto.response.TempDataResponse;
-import bd.ac.buet.KeyValueStore.model.ObjectStore;
-import bd.ac.buet.KeyValueStore.model.TempData;
+import bd.ac.buet.KeyValueStore.model.*;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
-import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
-import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
+import bd.ac.buet.KeyValueStore.repository.*;
 import bd.ac.buet.KeyValueStore.service.ServerInfoService;
 import bd.ac.buet.KeyValueStore.service.TempDataService;
 import bd.ac.buet.KeyValueStore.service.paxos.ProposerService;
 import org.apache.commons.collections4.IteratorUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +22,19 @@ public class DataStorageController {
     private final TempDataService tempDataService;
     private final TempDataRepository tempDataRepository;
     private final ServerInfoService serverInfoService;
+    private final ServerInfoRepository serverInfoRepository;
+    private final ProposerStoreRepository proposerStoreRepository;
+    private final DetailedProposerStoreRepository detailedProposerStoreRepository;
 
-    public DataStorageController(ProposerService proposerService, ObjectStoreRepository objectStoreRepository, TempDataService tempDataService, TempDataRepository tempDataRepository, ServerInfoService serverInfoService) {
+    public DataStorageController(ProposerService proposerService, ObjectStoreRepository objectStoreRepository, TempDataService tempDataService, TempDataRepository tempDataRepository, ServerInfoService serverInfoService, ServerInfoRepository serverInfoRepository, ProposerStoreRepository proposerStoreRepository, DetailedProposerStoreRepository detailedProposerStoreRepository) {
         this.proposerService = proposerService;
         this.objectStoreRepository = objectStoreRepository;
         this.tempDataService = tempDataService;
         this.tempDataRepository = tempDataRepository;
         this.serverInfoService = serverInfoService;
+        this.serverInfoRepository = serverInfoRepository;
+        this.proposerStoreRepository = proposerStoreRepository;
+        this.detailedProposerStoreRepository = detailedProposerStoreRepository;
     }
 
     @PutMapping("/save")
@@ -123,5 +125,29 @@ public class DataStorageController {
         return ResponseEntity
                 .ok()
                 .body(tempDataListResponse);
+    }
+
+    @GetMapping("/server-info")
+    public ResponseEntity<List<ServerInfo>> getAllServers(){
+        return ResponseEntity
+                .ok(IteratorUtils.toList(serverInfoRepository.findAll().iterator()));
+    }
+
+    @GetMapping("/load-all-temp-data")
+    public ResponseEntity<List<TempData>> loadAllTempData(){
+        return ResponseEntity
+                .ok(IteratorUtils.toList(tempDataRepository.findAll().iterator()));
+    }
+
+    @GetMapping("/load-all-proposer-store")
+    public ResponseEntity<List<ProposerStore>> loadAllProposerStores(){
+        return ResponseEntity
+                .ok(IteratorUtils.toList(proposerStoreRepository.findAll().iterator()));
+    }
+
+    @GetMapping("/load-all-detailed-proposer-store")
+    public ResponseEntity<List<DetailedProposerStore>> loadAllDetailedProposerStores(){
+        return ResponseEntity
+                .ok(IteratorUtils.toList(detailedProposerStoreRepository.findAll().iterator()));
     }
 }

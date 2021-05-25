@@ -39,6 +39,7 @@ public class MessageProcessor {
     }
 
     public void initializeApplicationAndBroadcast(){
+        log.info("initializing application info");
         applicationInfoRepository.deleteAll();
         ApplicationInfo applicationInfo = ApplicationInfo.builder()
                 .name(this.applicationName)

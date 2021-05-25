@@ -8,11 +8,13 @@ import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.ApplicationInfoRepository;
 import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
+@Slf4j
 public class ObjectStoreService {
     private final ApplicationInfoRepository applicationInfoRepository;
     private final ServerInfoRepository serverInfoRepository;
@@ -26,6 +28,8 @@ public class ObjectStoreService {
 
     public TempData convertToTempData(ObjectStore objectStore){
         ApplicationInfo applicationInfo = applicationInfoRepository.findAll().iterator().next();
+        log.info("----------applicaton name ------------");
+        log.info(applicationInfo.getName());
         ServerInfo parentServerInfo = serverInfoRepository.findByNameEquals(applicationInfo.getName()).get();
         TempData tempData = TempData
                 .builder()

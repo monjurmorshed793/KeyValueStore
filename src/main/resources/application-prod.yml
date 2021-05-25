@@ -9,8 +9,8 @@ spring:
   kafka:
     consumer:
       auto-offset-reset: earliest
-      bootstrap-servers: ${KAFKA_HOST}
-      group-id: group-id
+      bootstrap-servers: kafka:9092
+      group-id: ${GROUP_ID}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         spring:
@@ -19,7 +19,7 @@ spring:
               packages: '*'
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     producer:
-      bootstrap-servers: ${KAFKA_HOST}
+      bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   redis:

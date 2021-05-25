@@ -59,17 +59,18 @@ public class ProposerService {
             TempData existingData = existingTempData.get(0);
             existingData.setProposedBy(tempData.getProposedBy());
             proposerResponse.setTempData(existingData);
+            log.info("Proposer response: existing data");
         }else{
             proposerResponse.setTempData(tempData);
+            log.info("Proposer response: provided data");
         }
         kafkaProducer.send("proposer-response", proposerResponse);
     }
 
     public void processProposerResponse(ProposerResponseDTO proposerResponse){
         ServerInfo selfServerInfo = serverInfoService.getSelfServerInfo();
-        detailedProposerStoreService.updateDetailedProposerStoreOnProposalResponse(proposerResponse);
-//        if(proposerResponse.getTempData().getProposedBy().getId().equals(selfServerInfo.getId())){
-//
-//        }
+        if(proposerResponse.getTempData().getProposedBy().getId().equals(selfServerInfo.getId())){
+            detailedProposerStoreService.updateDetailedProposerStoreOnProposalResponse(proposerResponse);
+        }
     }
 }

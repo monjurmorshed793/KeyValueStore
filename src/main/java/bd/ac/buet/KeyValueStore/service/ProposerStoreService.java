@@ -7,6 +7,7 @@ import bd.ac.buet.KeyValueStore.model.enumeration.State;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.DetailedProposerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ProposerStoreRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProposerStoreService {
     private final ProposerStoreRepository proposerStoreRepository;
     private final DetailedProposerStoreService detailedProposerStoreService;
@@ -37,7 +39,9 @@ public class ProposerStoreService {
                 .createdOn(Instant.now())
                 .updatedOn(Instant.now())
                 .build();
+        log.info("Create initial proposer store");
         proposerStore = proposerStoreRepository.save(proposerStore);
+        log.info("Create initial proposer store success");
         detailedProposerStoreService.createInitialDetailedProposerStore(proposerStore);
     }
 

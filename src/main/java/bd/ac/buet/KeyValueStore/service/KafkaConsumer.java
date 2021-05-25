@@ -38,27 +38,32 @@ public class KafkaConsumer {
     @KafkaListener(topics = "server-info", groupId = "${spring.kafka.consumer.group-id}")
     public void receive(ServerInfo consumerRecord) {
         payload = consumerRecord;
+        log.info("Storing server info");
         serverInfoService.storeServerInfo(payload);
         //latch.countDown();
     }
 
     @KafkaListener(topics = "proposer-request", groupId = "${spring.kafka.consumer.group-id}")
     public void proposerRequest(TempData tempData){
+        log.info("Proposer request");
         proposerService.responseToProposer(tempData);
     }
 
     @KafkaListener(topics = "proposer-response", groupId = "${spring.kafka.consumer.group-id}")
     public void receiveProposerResponse(ProposerResponseDTO proposerResponse){
+        log.info("Proposer response");
         proposerService.processProposerResponse(proposerResponse);
     }
 
     @KafkaListener(topics = "acceptor-request", groupId = "${spring.kafka.consumer.group-id}")
     public void acceptorRequest(TempData tempData){
+        log.info("Acceptor request");
         acceptorService.processAcceptorRequest(tempData);
     }
 
     @KafkaListener(topics = "learner-request", groupId = "${spring.kafka.consumer.group-id}")
     public void learnerRequest(LearnerRequestDto learnerRequest){
+        log.info("Learner Request");
         learnerService.processLearnerRequest(learnerRequest);
     }
 

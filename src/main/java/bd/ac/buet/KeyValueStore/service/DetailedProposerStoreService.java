@@ -7,8 +7,10 @@ import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.enumeration.State;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import bd.ac.buet.KeyValueStore.repository.DetailedProposerStoreRepository;
+import bd.ac.buet.KeyValueStore.repository.ProposerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.ServerInfoRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +25,19 @@ public class DetailedProposerStoreService {
     private final DetailedProposerStoreRepository detailedProposerStoreRepository;
     private final ServerInfoRepository serverInfoRepository;
     private final ProposerStoreService proposerStoreService;
+    private final ProposerStoreRepository proposerStoreRepository;
 
-    public DetailedProposerStoreService(DetailedProposerStoreRepository detailedProposerStoreRepository, ServerInfoRepository serverInfoRepository, @Lazy ProposerStoreService proposerStoreService) {
+    public DetailedProposerStoreService(DetailedProposerStoreRepository detailedProposerStoreRepository, ServerInfoRepository serverInfoRepository, @Lazy ProposerStoreService proposerStoreService,@Lazy ProposerStoreRepository proposerStoreRepository) {
         this.detailedProposerStoreRepository = detailedProposerStoreRepository;
         this.serverInfoRepository = serverInfoRepository;
         this.proposerStoreService = proposerStoreService;
+        this.proposerStoreRepository = proposerStoreRepository;
     }
 
     public void createInitialDetailedProposerStore(ProposerStore proposerStore){
-        Iterator<ServerInfo> serverInfoIterator = serverInfoRepository.findAll().iterator();
+        List<ServerInfo> serverInfoIterator = IteratorUtils.toList(serverInfoRepository.findAll().iterator());
         List<DetailedProposerStore> detailedProposerStores = new ArrayList<>();
-        while(serverInfoIterator.hasNext()){
-            ServerInfo serverInfo = serverInfoIterator.next();
+        for(ServerInfo serverInfo: serverInfoIterator){
             DetailedProposerStore detailedProposerStore = DetailedProposerStore
                     .builder()
                     .proposerStore(proposerStore)
@@ -46,7 +49,9 @@ public class DetailedProposerStoreService {
                     .build();
             detailedProposerStores.add(detailedProposerStore);
         }
-        detailedProposerStoreRepository.saveAll(detailedProposerStores);
+        Iterator<DetailedProposerStore> detailedProposerStoreIterator =  detailedProposerStoreRepository.saveAll(detailedProposerStores).iterator();
+        log.info("total detailed proposer stores created: ");
+        log.info(IteratorUtils.toList(detailedProposerStoreIterator).size()+"");
     }
 
     public void updateDetailedProposerStoreOnProposalResponse(ProposerResponseDTO proposerResponse){
