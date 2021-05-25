@@ -6,8 +6,24 @@ logging:
     org.morshed: INFO
 
 spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: ${KAFKA_HOST}
+      group-id: group-id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      bootstrap-servers: ${KAFKA_HOST}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   redis:
-    host: localhost
+    host: ${REDIS_HOST}
     port: ${REDIS_PORT}
   devtools:
     restart:
@@ -22,6 +38,8 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: false
+    service-url:
+      defaultZone: http://kvloadbalancer:8761/eureka
   instance:
     instance-id: keyvaluestore
     hostname: localhost
