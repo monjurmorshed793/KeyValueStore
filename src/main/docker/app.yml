@@ -19,18 +19,18 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  keyvaluestore1-redis:
-    image: redis:6.2.1
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 6379:6379
   kvloadbalancer:
     image: kvloadbalancer:latest
     ports:
       - 8761:8761
     environment:
       KVLOAD_BALANCER_SLEEP: 0s
+  keyvaluestore1-redis:
+    image: redis:6.2.1
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 6379:6379
   keyvaluestore1:
     image: keyvaluestore:latest
     extra_hosts:
@@ -40,8 +40,32 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SERVER_NAME: server1
+      SERVER_PORT: 8080
       REDIS_HOST: keyvaluestore1-redis
       REDIS_PORT: 6379
       EUREKA_URL: host.docker.internal:8761/eureka
+      INSTANCE_ID: keyvaluestore1
+      KAFKA_HOST: kafka:9092
+      KEY_VALUE_STORE_SLEEP: 10s
+  keyvaluestore2-redis:
+    image: redis:6.2.1
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 6380:6379
+  keyvaluestore2:
+    image: keyvaluestore:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8081
+      SERVER_NAME: server2
+      REDIS_HOST: keyvaluestore2-redis
+      REDIS_PORT: 6379
+      EUREKA_URL: host.docker.internal:8761/eureka
+      INSTANCE_ID: keyvaluestore2
       KAFKA_HOST: kafka:9092
       KEY_VALUE_STORE_SLEEP: 10s

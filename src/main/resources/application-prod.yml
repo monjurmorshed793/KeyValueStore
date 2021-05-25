@@ -31,7 +31,8 @@ spring:
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: true # we use Webpack dev server + BrowserSync for livereload
-
+server:
+  port: ${SERVER_PORT}
 application:
   name: ${SERVER_NAME}
 eureka:
@@ -41,7 +42,7 @@ eureka:
     service-url:
       defaultZone: http://kvloadbalancer:8761/eureka
   instance:
-    instance-id: keyvaluestore
+    instance-id: ${INSTANCE_ID}
     hostname: localhost
     appname: keyvaluestore
     virtual-host-name: keyvaluestore
