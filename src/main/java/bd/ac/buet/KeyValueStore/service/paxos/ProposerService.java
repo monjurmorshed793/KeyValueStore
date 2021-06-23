@@ -4,6 +4,7 @@ import bd.ac.buet.KeyValueStore.dto.ProposerResponseDTO;
 import bd.ac.buet.KeyValueStore.model.ObjectStore;
 import bd.ac.buet.KeyValueStore.model.ServerInfo;
 import bd.ac.buet.KeyValueStore.model.TempData;
+import bd.ac.buet.KeyValueStore.model.enumeration.StoreType;
 import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
 import bd.ac.buet.KeyValueStore.service.*;
@@ -39,9 +40,19 @@ public class ProposerService {
         TempData tempData = objectStoreService.convertToTempData(objectStore);
         tempData = tempDataService.save(tempData);
         if(tempData.getObjectId()==null){
+            tempData.setStoreType(StoreType.CREATE);
             tempData.setObjectId(tempData.getId());
             tempData = tempDataService.save(tempData);
+        }else{
+            tempData.setStoreType(StoreType.UPDATE);
         }
+        proposerStoreService.createInitialProposerStore(tempData);
+        kafkaProducer.send("proposer-request", tempData);
+        return tempDataService.convertToObjectStore(tempData);
+    }
+
+    public ObjectStore proposeDeletion(String objectId){
+        TempData tempData = objectStoreService.convertToTempData(objectStoreRepository.findById(objectId).get());
         proposerStoreService.createInitialProposerStore(tempData);
         kafkaProducer.send("proposer-request", tempData);
         return tempDataService.convertToObjectStore(tempData);

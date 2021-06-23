@@ -62,4 +62,8 @@ public class ObjectStoreService {
             return objectStoreRepository.save(objectStore);
         }
     }
+
+    public void deleteObjectStore(String id){
+        objectStoreRepository.deleteById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package bd.ac.buet.KeyValueStore.model;
 
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
+import bd.ac.buet.KeyValueStore.model.enumeration.StoreType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class TempData {
     private ServerInfo proposedBy;
     @Indexed
     private Status status;
+    @Indexed
+    private StoreType storeType;
     private Instant createdOn;
     private Instant updatedOn;
 }

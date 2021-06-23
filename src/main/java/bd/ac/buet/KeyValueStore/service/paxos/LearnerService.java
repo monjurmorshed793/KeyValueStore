@@ -5,6 +5,7 @@ import bd.ac.buet.KeyValueStore.model.DetailedLearnerStore;
 import bd.ac.buet.KeyValueStore.model.LearnerStore;
 import bd.ac.buet.KeyValueStore.model.TempData;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
+import bd.ac.buet.KeyValueStore.model.enumeration.StoreType;
 import bd.ac.buet.KeyValueStore.repository.DetailedLearnerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.LearnerStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
@@ -39,7 +40,11 @@ public class LearnerService {
             LearnerStore learnerStore =  learnerStoreService.updateLearnerStore(detailedLearnerStore.getLearnerStore());
             log.info(learnerStore.getStatus().name());
             if(learnerStore.getStatus().equals(Status.ACCEPTED)){
-                objectStoreService.createOrUpdateObjectStore(learnerStore.getTempData());
+                if(learnerStore.getTempData().getStoreType().equals(StoreType.DELETE)){
+                    objectStoreService.deleteObjectStore(learnerStore.getTempData().getObjectId());
+                }else{
+                    objectStoreService.createOrUpdateObjectStore(learnerStore.getTempData());
+                }
                 TempData tempData = learnerStore.getTempData();
                 tempData.setStatus(Status.ACCEPTED);
                 tempDataRepository.save(tempData);
