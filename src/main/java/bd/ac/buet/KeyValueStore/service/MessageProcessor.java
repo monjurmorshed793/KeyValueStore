@@ -5,14 +5,12 @@ import bd.ac.buet.KeyValueStore.model.ApplicationInfo;
 import bd.ac.buet.KeyValueStore.repository.ApplicationInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.Optional;
 
 
 @Service
@@ -25,17 +23,19 @@ public class MessageProcessor {
     private final ApplicationInfoRepository applicationInfoRepository;
     private final ApplicationInfoService applicationInfoService;
     private final ApplicationProperties applicationProperties;
+    private final ServerInfoService serverInfoService;
 
     public MessageProcessor(KafkaTemplate<String, Object> kafkaTemplate,
                             @Value("${application.name}") String applicationName,
                             ApplicationInfoRepository applicationInfoRepository,
                             ApplicationInfoService applicationInfoService,
-                            ApplicationProperties applicationProperties) {
+                            ApplicationProperties applicationProperties, ServerInfoService serverInfoService) {
         this.kafkaTemplate = kafkaTemplate;
         this.applicationName = applicationName;
         this.applicationInfoRepository = applicationInfoRepository;
         this.applicationInfoService = applicationInfoService;
         this.applicationProperties = applicationProperties;
+        this.serverInfoService = serverInfoService;
     }
 
     public void initializeApplicationAndBroadcast(){
@@ -48,6 +48,12 @@ public class MessageProcessor {
                 .build();
         applicationInfo = applicationInfoRepository.save(applicationInfo);
         kafkaTemplate.send("server-info", applicationInfoService.convert(applicationInfo));
+    }
+
+
+    @Scheduled(fixedRate = 10000) // broadcasting at 10s intervals
+    public void scheduledServerInfoBroadCase(){
+        kafkaTemplate.send("server-info", serverInfoService.getSelfServerInfo());
     }
 
 }
