@@ -22,5 +22,6 @@ public class ObjectStore {
     @Indexed
     private String customObject;
     private Instant createdOn;
+    @Indexed
     private Instant updatedOn;
 }

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -65,5 +66,17 @@ public class ObjectStoreService {
 
     public void deleteObjectStore(String id){
         objectStoreRepository.deleteById(id);
+    }
+
+    public void restoreObjectStores(List<ObjectStore> objectStoreList){
+        objectStoreRepository.saveAll(objectStoreList);
+    }
+
+    public void deleteObjectStores(List<String> objectStoreIds){
+        for(String id: objectStoreIds){
+            if(objectStoreRepository.existsById(id)){
+                objectStoreRepository.deleteById(id);
+            }
+        }
     }
 }

@@ -32,5 +32,6 @@ public class TempData {
     @Indexed
     private StoreType storeType;
     private Instant createdOn;
+    @Indexed
     private Instant updatedOn;
 }
