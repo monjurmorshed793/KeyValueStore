@@ -1,5 +1,6 @@
 package bd.ac.buet.KeyValueStore.model;
 
+import bd.ac.buet.KeyValueStore.model.enumeration.ServerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class ServerInfo {
     private String id;
     @Indexed
     private String name;
+    private ServerStatus serverStatus;
     private Instant createdOn;
     private Instant updatedOn;
 }
