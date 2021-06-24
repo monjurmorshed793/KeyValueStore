@@ -1,6 +1,7 @@
 package bd.ac.buet.KeyValueStore.repository;
 
 import bd.ac.buet.KeyValueStore.model.DetailedLearnerStore;
+import bd.ac.buet.KeyValueStore.model.enumeration.Status;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Iterator;
@@ -14,5 +15,7 @@ public interface DetailedLearnerStoreRepository extends CrudRepository<DetailedL
     Boolean existsByServerInfoIdAndLearnerStoreTempDataId(String serverInfoId, String tempDataId);
 
     List<DetailedLearnerStore> findAllByLearnerStoreId(String learnerStoreId);
+
+    List<DetailedLearnerStore> findAllByLearnerStoreIdAndStatus(String learnerStoreId, Status status);
 
 }

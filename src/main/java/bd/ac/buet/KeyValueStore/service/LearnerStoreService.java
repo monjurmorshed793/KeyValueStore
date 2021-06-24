@@ -46,9 +46,9 @@ public class LearnerStoreService {
     }
 
     public LearnerStore updateLearnerStore(LearnerStore learnerStore){
-        List<DetailedLearnerStore> detailedLearnerStoreList = detailedLearnerStoreRepository.findAllByLearnerStoreId(learnerStore.getId());
+        List<DetailedLearnerStore> detailedLearnerStoreList = detailedLearnerStoreRepository.findAllByLearnerStoreIdAndStatus(learnerStore.getId(), Status.ACCEPTED);
         List<ServerInfo> serverInfoList = IteratorUtils.toList(serverInfoRepository.findAll().iterator());
-        if(detailedLearnerStoreList.size() == serverInfoList.size()){
+        if(detailedLearnerStoreList.size() >= (serverInfoList.size()/2+1)){
             learnerStore.setState(State.LEARNER_RESPONDED);
             learnerStore.setStatus(Status.ACCEPTED);
             return learnerStoreRepository.save(learnerStore);

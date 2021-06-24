@@ -43,7 +43,7 @@ public class ServerInfoService {
         return serverInfoRepository.findByNameEquals(selfApplicationInfo.getName()).get();
     }
 
-    @Scheduled(fixedRate = 10000) // broadcasting at 12s intervals
+    @Scheduled(fixedRate = 10000) // broadcasting at 10s intervals
     public void serverStatusChecker(){
         Iterator<ServerInfo> allServers = serverInfoRepository.findAll().iterator();
         ServerInfo selfServerInfo = getSelfServerInfo();
