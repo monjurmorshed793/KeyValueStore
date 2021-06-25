@@ -9,6 +9,7 @@ import bd.ac.buet.KeyValueStore.repository.ObjectStoreRepository;
 import bd.ac.buet.KeyValueStore.repository.TempDataRepository;
 import bd.ac.buet.KeyValueStore.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +54,8 @@ public class ProposerService {
 
     public ObjectStore proposeDeletion(String objectId){
         TempData tempData = objectStoreService.convertToTempData(objectStoreRepository.findById(objectId).get());
+        tempData.setStoreType(StoreType.DELETE);
+        tempData = tempDataRepository.save(tempData);
         proposerStoreService.createInitialProposerStore(tempData);
         kafkaProducer.send("proposer-request", tempData);
         return tempDataService.convertToObjectStore(tempData);

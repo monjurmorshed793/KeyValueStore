@@ -15,6 +15,8 @@ import bd.ac.buet.KeyValueStore.service.ObjectStoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 @Slf4j
 public class LearnerService {
@@ -41,12 +43,15 @@ public class LearnerService {
             log.info(learnerStore.getStatus().name());
             if(learnerStore.getStatus().equals(Status.ACCEPTED)){
                 if(learnerStore.getTempData().getStoreType().equals(StoreType.DELETE)){
+                    log.info("Deleted");
                     objectStoreService.deleteObjectStore(learnerStore.getTempData().getObjectId());
                 }else{
+                    log.info("Created/Updated");
                     objectStoreService.createOrUpdateObjectStore(learnerStore.getTempData());
                 }
                 TempData tempData = learnerStore.getTempData();
                 tempData.setStatus(Status.ACCEPTED);
+                tempData.setUpdatedOn(Instant.now());
                 tempDataRepository.save(tempData);
             }
         }

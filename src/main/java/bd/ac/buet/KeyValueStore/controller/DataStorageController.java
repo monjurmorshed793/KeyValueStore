@@ -4,10 +4,12 @@ import bd.ac.buet.KeyValueStore.dto.response.ObjectStoreResponse;
 import bd.ac.buet.KeyValueStore.dto.response.TempDataListResponse;
 import bd.ac.buet.KeyValueStore.model.*;
 import bd.ac.buet.KeyValueStore.model.enumeration.Status;
+import bd.ac.buet.KeyValueStore.model.enumeration.StoreType;
 import bd.ac.buet.KeyValueStore.repository.*;
 import bd.ac.buet.KeyValueStore.service.ServerInfoService;
 import bd.ac.buet.KeyValueStore.service.TempDataService;
 import bd.ac.buet.KeyValueStore.service.paxos.ProposerService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class DataStorageController {
 
     private final ProposerService proposerService;
@@ -61,6 +64,13 @@ public class DataStorageController {
                 .ok(objectStoreResponse);
     }
 
+    @DeleteMapping("/delete/id/{id}")
+    public ResponseEntity<Void> deleteData(@PathVariable String id){
+        proposerService.proposeDeletion(id);
+        return ResponseEntity
+                .noContent().build();
+    }
+
     @GetMapping("/get-all-object-store")
     public ResponseEntity<List<ObjectStore>> getAllObjectStore(){
         return ResponseEntity
@@ -80,7 +90,11 @@ public class DataStorageController {
 
     @DeleteMapping("/delete-temp-data")
     public ResponseEntity<Void> deleteAllTempData(){
-        tempDataService.deleteAllTempData();
+
+        log.info("Deleting all dta");
+        tempDataRepository.deleteAll();
+        objectStoreRepository.deleteAll();
+        //tempDataService.deleteAllTempData();
         return ResponseEntity
                 .ok()
                 .build();
@@ -137,6 +151,13 @@ public class DataStorageController {
     public ResponseEntity<List<TempData>> loadAllTempData(){
         return ResponseEntity
                 .ok(IteratorUtils.toList(tempDataRepository.findAll().iterator()));
+    }
+
+
+    @GetMapping("/load-all-delete-temp-data")
+    public ResponseEntity<List<TempData>> loadAllDeleteTempData(){
+        return ResponseEntity
+                .ok(IteratorUtils.toList(tempDataRepository.findAllByStoreType(StoreType.DELETE).iterator()));
     }
 
     @GetMapping("/load-all-proposer-store")

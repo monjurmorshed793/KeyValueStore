@@ -15,4 +15,6 @@ public interface TempDataRepository extends CrudRepository<TempData, String> {
 
     List<TempData> findAllByStoreTypeAndUpdatedOnAfter(StoreType storeType, Instant instant);
 
+    List<TempData> findAllByStoreType(StoreType storeType);
+
 }
