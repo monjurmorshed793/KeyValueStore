@@ -70,13 +70,13 @@ public class KafkaConsumer {
         learnerService.processLearnerRequest(learnerRequest);
     }
 
-    @KafkaListener(topics = "restore", groupId = "${spring.kafka.consumer.group-id}")
-    public void restoreResponse(RestoreDTO restoreDTO){
-        if(restoreDTO.getServerInfo().getName().equals(serverInfoService.getSelfServerInfo().getName())){
-            objectStoreService.restoreObjectStores(restoreDTO.getObjectStores());
-            objectStoreService.deleteObjectStores(restoreDTO.getDeleteIds());
-        }
-    }
+//    @KafkaListener(topics = "restore", groupId = "${spring.kafka.consumer.group-id}")
+//    public void restoreResponse(RestoreDTO restoreDTO){
+//        if(restoreDTO.getServerInfo().getName().equals(serverInfoService.getSelfServerInfo().getName())){
+//            objectStoreService.restoreObjectStores(restoreDTO.getObjectStores());
+//            objectStoreService.deleteObjectStores(restoreDTO.getDeleteIds());
+//        }
+//    }
 
     public CountDownLatch getLatch() {
         return latch;

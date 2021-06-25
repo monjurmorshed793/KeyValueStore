@@ -51,9 +51,9 @@ public class MessageProcessor {
     }
 
 
-    @Scheduled(fixedRate = 10000) // broadcasting at 10s intervals
-    public void scheduledServerInfoBroadCase(){
-        kafkaTemplate.send("server-info", serverInfoService.getSelfServerInfo());
-    }
+//    @Scheduled(fixedRate = 10000) // broadcasting at 10s intervals
+//    public void scheduledServerInfoBroadCase(){
+//        kafkaTemplate.send("server-info", serverInfoService.getSelfServerInfo());
+//    }
 
 }
