@@ -95,50 +95,50 @@ services:
       KEY_VALUE_STORE_SLEEP: 10s
       GROUP_ID: GROUP_ID3
 
-  keyvaluestore4-redis:
-    image: redis:6.2.1
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 6382:6379
-  keyvaluestore4:
-    image: keyvaluestore:latest
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - 8083:8083
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SERVER_PORT: 8083
-      SERVER_NAME: server4
-      REDIS_HOST: keyvaluestore4-redis
-      REDIS_PORT: 6379
-      EUREKA_URL: host.docker.internal:8761/eureka
-      INSTANCE_ID: keyvaluestore4
-      KAFKA_HOST: kafka:9092
-      KEY_VALUE_STORE_SLEEP: 10s
-      GROUP_ID: GROUP_ID4
-
-  keyvaluestore5-redis:
-    image: redis:6.2.1
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 6383:6379
-  keyvaluestore5:
-    image: keyvaluestore:latest
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - 8084:8084
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SERVER_PORT: 8084
-      SERVER_NAME: server5
-      REDIS_HOST: keyvaluestore5-redis
-      REDIS_PORT: 6379
-      EUREKA_URL: host.docker.internal:8761/eureka
-      INSTANCE_ID: keyvaluestore5
-      KAFKA_HOST: kafka:9092
-      KEY_VALUE_STORE_SLEEP: 10s
-      GROUP_ID: GROUP_ID5
+#  keyvaluestore4-redis:
+#    image: redis:6.2.1
+#    # If you want to expose these ports outside your dev PC,
+#    # remove the "127.0.0.1:" prefix
+#    ports:
+#      - 6382:6379
+#  keyvaluestore4:
+#    image: keyvaluestore:latest
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    ports:
+#      - 8083:8083
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      SERVER_PORT: 8083
+#      SERVER_NAME: server4
+#      REDIS_HOST: keyvaluestore4-redis
+#      REDIS_PORT: 6379
+#      EUREKA_URL: host.docker.internal:8761/eureka
+#      INSTANCE_ID: keyvaluestore4
+#      KAFKA_HOST: kafka:9092
+#      KEY_VALUE_STORE_SLEEP: 10s
+#      GROUP_ID: GROUP_ID4
+#
+#  keyvaluestore5-redis:
+#    image: redis:6.2.1
+#    # If you want to expose these ports outside your dev PC,
+#    # remove the "127.0.0.1:" prefix
+#    ports:
+#      - 6383:6379
+#  keyvaluestore5:
+#    image: keyvaluestore:latest
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    ports:
+#      - 8084:8084
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      SERVER_PORT: 8084
+#      SERVER_NAME: server5
+#      REDIS_HOST: keyvaluestore5-redis
+#      REDIS_PORT: 6379
+#      EUREKA_URL: host.docker.internal:8761/eureka
+#      INSTANCE_ID: keyvaluestore5
+#      KAFKA_HOST: kafka:9092
+#      KEY_VALUE_STORE_SLEEP: 10s
+#      GROUP_ID: GROUP_ID5

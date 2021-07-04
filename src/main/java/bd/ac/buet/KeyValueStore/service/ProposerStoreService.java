@@ -51,7 +51,7 @@ public class ProposerStoreService {
         if(latestProposerStore.getState().equals(State.PROPOSER_REQUESTED)){
             long totalProposerResponded = detailedProposerStores.stream().filter(d-> d.getState().equals(State.PROPOSER_RESPONDED)).count();
             long totalServers = detailedProposerStores.stream().count();
-            if(totalProposerResponded>= ((totalServers/2)+1) && (!latestProposerStore.getStatus().equals(Status.REJECTED) || !latestProposerStore.getStatus().equals(Status.ACCEPTED))){
+            if(detailedProposerStores.size()>0 && totalProposerResponded>= ((totalServers/2)+1) && (!latestProposerStore.getStatus().equals(Status.REJECTED) || !latestProposerStore.getStatus().equals(Status.ACCEPTED))){
                 TempData latestTempData = detailedProposerStores
                         .stream()
                         .map(d-> d.getRespondedTempData())

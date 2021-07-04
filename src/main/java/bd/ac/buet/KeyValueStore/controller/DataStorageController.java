@@ -54,6 +54,7 @@ public class DataStorageController {
 
     @GetMapping ("/id/{id}")
     public ResponseEntity<ObjectStoreResponse> getData( @PathVariable String id){
+        log.info("Serving from server: {}", serverInfoService.getSelfServerInfo().getName());
         ObjectStore objectStore = objectStoreRepository.findById(id).get();
         ObjectStoreResponse objectStoreResponse = ObjectStoreResponse
                 .builder()
@@ -73,6 +74,8 @@ public class DataStorageController {
 
     @GetMapping("/get-all-object-store")
     public ResponseEntity<List<ObjectStore>> getAllObjectStore(){
+        log.info("Serving from server: {}", serverInfoService.getSelfServerInfo().getName());
+
         return ResponseEntity
                 .ok(IteratorUtils.toList(objectStoreRepository.findAll().iterator()));
     }
